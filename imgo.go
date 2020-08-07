@@ -151,7 +151,7 @@ func seekPos(p *Picture, searchPic *Picture, searchOnce bool) []image.Rectangle 
 				continue
 			}
 
-			if !scanAreaOk(x, y, p, searchPic) { //四个角对上了在扫描区域，不成功直接下一次，成功直接返回
+			if !scanAreaOk(x, y, p, searchPic) { //四个角对上了在扫描区域，不成功直接下一次，
 				continue
 			}
 
