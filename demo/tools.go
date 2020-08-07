@@ -14,8 +14,8 @@ import (
 func main()  {
 	const readDirName  = "./imgs/"
 	const distDirName  = "./dist/"
-	const searchPicName  =  "./x.png"
-	const replacePicName  =  "./text.png"
+	const searchPicName  =  "./searchPic.png"
+	const replacePicName  =  "./replacePic.png"
 
 
 	searchPic, err := imgo.NewPng(searchPicName)
@@ -43,6 +43,7 @@ func main()  {
 				fmt.Println(err)
 				continue
 			}
+			fmt.Println(name + "替换成功！")
 		}
 		if strings.HasSuffix(name, "jpeg") ||
 			strings.HasSuffix(name, "jpg") {
@@ -56,6 +57,7 @@ func main()  {
 				fmt.Println(err)
 				continue
 			}
+			fmt.Println(name + "替换成功！")
 		}
 	}
 }
