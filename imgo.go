@@ -102,7 +102,7 @@ func (p *Picture) ReplaceAll(searchPic *Picture, replacer *Picture) (image.Image
 
 	dst := p.Img
 	if dst, ok := dst.(draw.Image); ok {
-		for _,rectangle := range rectangles{
+		for _, rectangle := range rectangles {
 			draw.Draw(dst, rectangle, replacer.Img, image.Point{}, draw.Src)
 		}
 	}
@@ -124,11 +124,15 @@ func newPic(img image.Image, path string) *Picture {
 }
 
 func scanAreaOk(intX, intY int, p, searchPic *Picture) bool {
-	if p.CompareAccuracy < 1 {
+	h := searchPic.Height - 1
+	w := searchPic.Width - 1
+
+	if p.CompareAccuracy < 1 || h < p.CompareAccuracy || w < p.CompareAccuracy {
 		p.SetCompareAccuracy(1)
 	}
-	for y := 0; y <= searchPic.Height-1; y += p.CompareAccuracy {
-		for x := 0; x <= searchPic.Width-1; x += p.CompareAccuracy {
+
+	for y := 0; y <= h; y += p.CompareAccuracy {
+		for x := 0; x <= w; x += p.CompareAccuracy {
 			if searchPic.Img.At(x, y) != p.Img.At(intX+x, intY+y) {
 				return false
 			}
@@ -145,9 +149,9 @@ func seekPos(p *Picture, searchPic *Picture, searchOnce bool) []image.Rectangle 
 	for y := 0; y <= (p.Height - searchPic.Height); y++ {
 		for x := 0; x <= (p.Width - searchPic.Width); x++ {
 			if searchPic.Img.At(0, 0) != p.Img.At(x, y) ||
-				searchPic.Img.At(searchPic.Width - 1, 0) != p.Img.At(x + searchPic.Width - 1, y) ||
-				searchPic.Img.At(searchPic.Width - 1, searchPic.Height - 1) != p.Img.At(x + searchPic.Width - 1, y + searchPic.Height - 1) ||
-				searchPic.Img.At(0, searchPic.Height - 1) != p.Img.At(x, y + searchPic.Height - 1) { //四个角只要有一个颜色对应不上直接跳到下一次
+				searchPic.Img.At(searchPic.Width-1, 0) != p.Img.At(x+searchPic.Width-1, y) ||
+				searchPic.Img.At(searchPic.Width-1, searchPic.Height-1) != p.Img.At(x+searchPic.Width-1, y+searchPic.Height-1) ||
+				searchPic.Img.At(0, searchPic.Height-1) != p.Img.At(x, y+searchPic.Height-1) { //四个角只要有一个颜色对应不上直接跳到下一次
 				continue
 			}
 
